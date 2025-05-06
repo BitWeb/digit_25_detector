@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -26,5 +29,19 @@ public class TransactionVerifier {
         log.info("Rejecting transaction {}", transaction.getId());
 
         RetrofitRequestExecutor.executeRaw(api.reject(properties.getToken(), transaction.getId()));
+    }
+
+    public void verify(List<Transaction> transactions) {
+        List<String> ids = transactions.stream().map(Transaction::getId).toList();
+        log.info("Verifying transactions {}", ids);
+
+        RetrofitRequestExecutor.executeRaw(api.verify(properties.getToken(), ids));
+    }
+
+    public void reject(List<Transaction> transactions) {
+        List<String> ids = transactions.stream().map(Transaction::getId).toList();
+        log.info("Rejecting transactions {}", ids);
+
+        RetrofitRequestExecutor.executeRaw(api.reject(properties.getToken(), ids));
     }
 }

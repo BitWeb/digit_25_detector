@@ -15,4 +15,11 @@ public interface TransactionsApi {
 
     @POST("/transactions/{id}/reject")
     Call<Void> reject(@Header("Authorization") String token, @Path("id") String transactionId);
+
+    @POST("/transactions/verify")
+    Call<Void> verify(@Header("Authorization") String token, @Body List<String> ids);
+
+    @POST("/transactions/reject")
+    Call<Void> reject(@Header("Authorization") String token, @Body List<String> ids);
+
 }

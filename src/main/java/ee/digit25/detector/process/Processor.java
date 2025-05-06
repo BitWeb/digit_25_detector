@@ -31,14 +31,29 @@ public class Processor {
         log.info("Starting to process a batch of transactions of size {}", TRANSACTION_BATCH_SIZE);
         while(true) {
             List<Transaction> transactions = requester.getUnverified(TRANSACTION_BATCH_SIZE);
-            List<CompletableFuture<Void>> futures = new ArrayList<>();
+            List<CompletableFuture<TransactionProcessor.Result>> futures = new ArrayList<>();
             for (Transaction transaction : transactions) {
                 futures.add(processor.process(transaction));
             }
+            List<Transaction> validTransactions = new ArrayList<>();
+            List<Transaction> invalidTransactions = new ArrayList<>();
 
-            for (CompletableFuture<Void> future : futures) {
-                future.get();
+            for (CompletableFuture<TransactionProcessor.Result> future : futures) {
+                TransactionProcessor.Result result = future.get();
+                if (result.isValid()) {
+                    validTransactions.add(result.getTransaction());
+                } else {
+                    invalidTransactions.add(result.getTransaction());
+                }
             }
+
+            if (!validTransactions.isEmpty()) {
+                verifier.verify(validTransactions);
+            }
+            if (!invalidTransactions.isEmpty()) {
+                verifier.reject(invalidTransactions);
+            }
+            Thread.sleep(10);
         }
     }
 

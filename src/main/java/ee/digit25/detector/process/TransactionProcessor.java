@@ -4,6 +4,8 @@ import ee.digit25.detector.domain.transaction.TransactionValidator;
 import ee.digit25.detector.domain.transaction.external.TransactionRequester;
 import ee.digit25.detector.domain.transaction.external.TransactionVerifier;
 import ee.digit25.detector.domain.transaction.external.api.Transaction;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
@@ -20,18 +22,21 @@ public class TransactionProcessor {
     private final TransactionVerifier verifier;
 
     @Async("TRANSACTION_EXECUTOR_THREAD_POOL")
-    public CompletableFuture<Void> process(Transaction transaction) {
+    public CompletableFuture<Result> process(Transaction transaction) {
         try {
             if (validator.isLegitimate(transaction)) {
-                verify(transaction);
-            } else {
+                //verify(transaction);
+                return CompletableFuture.completedFuture(new Result(transaction, true));
+
+            }/* else {
                 reject(transaction);
-            }
+            }*/
         } catch (Exception e) {
             log.info("Transaction processing failed", e);
         }
 
-        return CompletableFuture.completedFuture(null);
+        return CompletableFuture.completedFuture(new Result(transaction, false));
+        //return CompletableFuture.completedFuture(null);
     }
 
     private void reject(Transaction transaction) {
@@ -44,4 +49,10 @@ public class TransactionProcessor {
         verifier.verify(transaction);
     }
 
+    @Getter
+    @AllArgsConstructor
+    public class Result {
+        private Transaction transaction;
+        private boolean valid;
+    }
 }
