@@ -19,7 +19,7 @@ import java.util.concurrent.ExecutionException;
 @RequiredArgsConstructor
 public class Processor {
 
-    private final int TRANSACTION_BATCH_SIZE = 300;
+    private final int TRANSACTION_BATCH_SIZE = 1000;
     private final TransactionRequester requester;
     private final TransactionValidator validator;
     private final TransactionVerifier verifier;
