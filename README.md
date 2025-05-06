@@ -8,7 +8,7 @@ For app to run you need to register with the bank with the following CURL comman
 
 **DO NOT FORGET TO CHANGE NAME IN BODY**
 
-`curl -X POST 'http://localhost:8080/detectors' -H 'Content-Type: application/json' --data-raw '{"name": "YOUR TEAM NAME HERE"}'`
+`curl -X POST 'http://ec2-16-16-217-235.eu-north-1.compute.amazonaws.com:8080/detectors' -H 'Content-Type: application/json' --data-raw '{"name": "YOUR TEAM NAME HERE"}'`
 
 As a response you will get token. Put that token into src/main/java/resources/application.properties
 
