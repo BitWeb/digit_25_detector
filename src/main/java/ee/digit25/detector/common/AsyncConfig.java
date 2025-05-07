@@ -13,7 +13,12 @@ public class AsyncConfig {
 
     @Bean("TRANSACTION_EXECUTOR_THREAD_POOL")
     public Executor getAsyncExecutor() {
-        return AsyncConfig.createThreadPoolExecutor(300);
+        return AsyncConfig.createThreadPoolExecutor(1000);
+    }
+
+    @Bean("PROCESS_EXECUTOR_THREAD_POOL")
+    public Executor getAsyncProcessExecutor() {
+        return AsyncConfig.createThreadPoolExecutor(50);
     }
 
     public static Executor createThreadPoolExecutor(int poolSize) {

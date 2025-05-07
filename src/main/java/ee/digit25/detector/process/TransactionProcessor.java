@@ -21,7 +21,7 @@ public class TransactionProcessor {
     private final TransactionValidator validator;
     private final TransactionVerifier verifier;
 
-    @Async("TRANSACTION_EXECUTOR_THREAD_POOL")
+    //@Async("TRANSACTION_EXECUTOR_THREAD_POOL")
     public CompletableFuture<Result> process(Transaction transaction) {
         try {
             if (validator.isLegitimate(transaction)) {
