@@ -36,3 +36,12 @@ Evaluators will run a single instance of application and let it run for 3 minute
 ***Testing machine:***
 * 2 vCPU 
 * 8 GB ram
+
+
+## Post event notes
+
+With a small delay, none the less, here is the Bitweb's version of the optimized detector app. [Check the branch out here.](https://github.com/BitWeb/digit_25_detector/tree/opt_one)
+
+You can use the banking server to test locally, the code is in given [Repository](https://github.com/BitWeb/digit_25_bank)
+
+PS: Special shoutout to Silver Abel for providing a very good implementation. Feel free to check out his [Fork](https://github.com/silverabel/digit_25_detector)
