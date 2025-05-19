@@ -21,5 +21,4 @@ public interface TransactionsApi {
 
     @POST("/transactions/reject")
     Call<Void> reject(@Header("Authorization") String token, @Body List<String> ids);
-
 }
