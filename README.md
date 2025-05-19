@@ -12,7 +12,7 @@ Once you have  a team and a fork, you can register with the following CURL comma
 
 **DO NOT FORGET TO CHANGE NAME AND GITHUB REPOSITORY URL IN BODY**
 
-`curl -X POST 'https://digit.sandbox.bitw3b.eu/detectors' -H 'Content-Type: application/json' --data-raw '{"name": "<TEAM NAME>", "githubUrl": "<GITHUB FORK URL>"}'`
+`curl -X POST 'http://localhost:8080/detectors' -H 'Content-Type: application/json' --data-raw '{"name": "My local team", "githubUrl": "Not relevant"}'`
 
 As a response you will get token. Put that token into src/main/java/resources/application.properties
 
