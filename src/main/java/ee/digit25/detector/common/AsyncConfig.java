@@ -1,5 +1,6 @@
 package ee.digit25.detector.common;
 
+import ee.digit25.detector.process.TransactionBatchProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -11,14 +12,14 @@ import java.util.concurrent.Executor;
 @EnableAsync
 public class AsyncConfig {
 
-    @Bean("TRANSACTION_EXECUTOR_THREAD_POOL")
-    public Executor getAsyncExecutor() {
-        return AsyncConfig.createThreadPoolExecutor(1000);
-    }
+    public static final String TRANSACTION_BATCH_THREAD_POOL_NAME = "transaction-batch-thread-pool";
 
-    @Bean("PROCESS_EXECUTOR_THREAD_POOL")
-    public Executor getAsyncProcessExecutor() {
-        return AsyncConfig.createThreadPoolExecutor(50);
+    // Nr of max pending transactions / Nr of max requestable unverified transactions
+    public static final int TRANSACTION_BATCH_THREAD_POOL_SIZE = 10000 / TransactionBatchProcessor.TRANSACTION_BATCH_SIZE;
+
+    @Bean(TRANSACTION_BATCH_THREAD_POOL_NAME)
+    public Executor transactionBatchThreadPool() {
+        return AsyncConfig.createThreadPoolExecutor(TRANSACTION_BATCH_THREAD_POOL_SIZE);
     }
 
     public static Executor createThreadPoolExecutor(int poolSize) {

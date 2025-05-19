@@ -6,10 +6,11 @@ import ee.digit25.detector.domain.transaction.external.api.TransactionApiPropert
 import ee.digit25.detector.domain.transaction.external.api.TransactionsApi;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Service
@@ -31,17 +32,23 @@ public class TransactionVerifier {
         RetrofitRequestExecutor.executeRaw(api.reject(properties.getToken(), transaction.getId()));
     }
 
-    public void verify(List<Transaction> transactions) {
+    @Async
+    public CompletableFuture<Void> verify(List<Transaction> transactions) {
         List<String> ids = transactions.stream().map(Transaction::getId).toList();
         log.info("Verifying transactions {}", ids);
 
         RetrofitRequestExecutor.executeRaw(api.verify(properties.getToken(), ids));
+
+        return CompletableFuture.completedFuture(null);
     }
 
-    public void reject(List<Transaction> transactions) {
+    @Async
+    public CompletableFuture<Void> reject(List<Transaction> transactions) {
         List<String> ids = transactions.stream().map(Transaction::getId).toList();
         log.info("Rejecting transactions {}", ids);
 
         RetrofitRequestExecutor.executeRaw(api.reject(properties.getToken(), ids));
+
+        return CompletableFuture.completedFuture(null);
     }
 }

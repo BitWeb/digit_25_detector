@@ -20,9 +20,9 @@ public class PersonRequester {
     private final PersonApi api;
     private final PersonApiProperties properties;
 
-    ConcurrentHashMap<String , Person> cache = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String , Person> cache = new ConcurrentHashMap<>(); // Simple cache
 
-    @PostConstruct
+    @PostConstruct // Cache preheating - preloads all person data
     public void init() {
         int page = 0;
 

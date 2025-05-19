@@ -4,7 +4,6 @@ import ee.bitweb.core.retrofit.RetrofitRequestExecutor;
 import ee.digit25.detector.domain.device.external.api.Device;
 import ee.digit25.detector.domain.device.external.api.DeviceApi;
 import ee.digit25.detector.domain.device.external.api.DeviceApiProperties;
-import ee.digit25.detector.domain.person.external.api.Person;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,9 +20,9 @@ public class DeviceRequester {
     private final DeviceApi api;
     private final DeviceApiProperties properties;
 
-    ConcurrentHashMap<String , Device> cache = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String , Device> cache = new ConcurrentHashMap<>(); // Simple cache
 
-    @PostConstruct
+    @PostConstruct // Cache preheating - loads all device data into cache
     public void init() {
         int page = 0;
 
